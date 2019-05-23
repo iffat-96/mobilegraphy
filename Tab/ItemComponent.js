@@ -5,23 +5,44 @@ import {
   StyleSheet,
   Image,
   FlatList,
-  ScrollView
+  ScrollView,
+  TextInput
 } from "react-native";
 import {
   Card,
+  Container,
+  Button,
   CardItem,
   Thumbnail,
   Body,
   Left,
+  Content,
+  Item,
+  Input,
   Right,
-  Button,
-  Icon
+  Icon,
+  Fab
 } from "native-base";
 import PropTypes from "prop-types";
 
 export default class ItemComponent extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      comment: "",
+      text: ""
+      // active: "false"
+    };
+  }
+
   static propTypes = {
     items: PropTypes.array.isRequired
+  };
+
+  submit = () => {
+    this.setState({
+      comment: String(this.state.text)
+    });
   };
 
   render() {
@@ -44,9 +65,62 @@ export default class ItemComponent extends React.Component {
                     source={{ uri: item.imgURL }}
                     style={styles.imageStyle}
                   />
-                  <Text />
-                  <Text style={styles.itemtext}>{item.description}</Text>
-                  <Text />
+                  <CardItem style={{ height: 45 }}>
+                    <Left>
+                      <Button transparent>
+                        <Icon name="heart-empty" style={{ color: "black" }} />
+                      </Button>
+                      <Button transparent>
+                        <Icon name="chatbubbles" style={{ color: "black" }} />
+                      </Button>
+                      <Button transparent>
+                        <Icon name="send" style={{ color: "black" }} />
+                      </Button>
+                    </Left>
+                  </CardItem>
+                  {/* <View style={{ flex: 1, paddingTop: 45 }}>
+                    <Fab
+                      active={this.state.active}
+                      containerStyle={{}}
+                      style={{ backgroundColor: "#5067FF" }}
+                      position="bottomRight"
+                      onPress={() =>
+                        this.setState({ active: !this.state.active })
+                      }
+                    >
+                      <Icon name="share" />
+                      <Button style={{ backgroundColor: "#34A34F" }}>
+                        <Icon name="logo-whatsapp" />
+                      </Button>
+                      <Button style={{ backgroundColor: "#3B5998" }}>
+                        <Icon name="logo-facebook" />
+                      </Button>
+                      <Button disabled style={{ backgroundColor: "#DD5144" }}>
+                        <Icon name="mail" />
+                      </Button>
+                    </Fab>
+                  </View> */}
+                  <CardItem>
+                    <Text style={styles.itemText}>{item.description}</Text>
+                  </CardItem>
+
+                  <Content>
+                    <Item>
+                      <Input
+                        placeholder="Comment"
+                        onChangeText={text => this.setState({ text })}
+                      />
+                      <Button>
+                        <Icon
+                          transparent
+                          active
+                          name="paper-plane"
+                          onPress={this.submit}
+                        />
+                      </Button>
+                    </Item>
+                  </Content>
+                  <Text> {this.state.comment}</Text>
                 </View>
               </Card>
             );
@@ -64,9 +138,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center"
   },
-  itemtext: {
+  itemText: {
     fontSize: 20,
-    fontWeight: "bold",
     textAlign: "center"
   },
   imageStyle: {

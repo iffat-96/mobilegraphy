@@ -1,7 +1,6 @@
 import React from "react";
 import {
   ActivityIndicator,
-  Button,
   Clipboard,
   Image,
   Share,
@@ -13,7 +12,7 @@ import {
   TextInput,
   Alert
 } from "react-native";
-import { Icon } from "native-base";
+import { Icon, Button, Item } from "native-base";
 import { Constants, ImagePicker, Permissions } from "expo";
 import uuid from "uuid";
 import * as firebase from "firebase";
@@ -59,17 +58,20 @@ class AddNewScreen extends React.Component {
               textAlign: "center",
               marginHorizontal: 15
             }}
-          >
-            Example: Upload ImagePicker result
-          </Text>
+          />
         )}
+        <Item>
+          <Button onPress={this._pickImage}>
+            <Icon transparent active name="image" />
+          </Button>
+        </Item>
 
-        <Button
-          onPress={this._pickImage}
-          title="Pick an image from camera roll"
-        />
         <Text style={{ marginBottom: 20, marginTop: 20 }} />
-        <Button onPress={this._takePhoto} title="Take a photo" />
+        <Item>
+          <Button onPress={this._takePhoto}>
+            <Icon transparent active name="camera" />
+          </Button>
+        </Item>
 
         {this._maybeRenderImage()}
 
@@ -153,8 +155,11 @@ class AddNewScreen extends React.Component {
             marginBottom: 20
           }}
         />
-
-        <Button onPress={this.handleSubmit} title="Post" />
+        <Item style={{ justifyContent: "center" }}>
+          <Button onPress={this.handleSubmit}>
+            <Icon placeholder="Post" transparent active name="paper-plane" />
+          </Button>
+        </Item>
       </View>
     );
   };
