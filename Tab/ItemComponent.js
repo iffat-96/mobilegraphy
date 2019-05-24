@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   ScrollView,
-  TextInput
+  TextInput,
+  Component
 } from "react-native";
 import {
   Card,
@@ -21,7 +22,8 @@ import {
   Input,
   Right,
   Icon,
-  Fab
+  Header,
+  H1
 } from "native-base";
 import PropTypes from "prop-types";
 
@@ -48,15 +50,22 @@ export default class ItemComponent extends React.Component {
   render() {
     return (
       <ScrollView>
+        <View style={{ paddingTop: 60, alignItems: "center" }}>
+          <Image source={require("../assets/title.png")} />
+        </View>
+
         <View style={styles.itemsList}>
           {this.props.items.map((item, index) => {
             return (
               <Card>
                 <CardItem>
                   <Left>
-                    <Thumbnail source={require("../assets/insta-logo.png")} />
+                    <Thumbnail
+                      style={{ width: 50, height: 50 }}
+                      source={require("../assets/insta-logo.png")}
+                    />
                     <Body>
-                      <Text>Iffat</Text>
+                      <Text>Username</Text>
                     </Body>
                   </Left>
                 </CardItem>
@@ -78,28 +87,6 @@ export default class ItemComponent extends React.Component {
                       </Button>
                     </Left>
                   </CardItem>
-                  {/* <View style={{ flex: 1, paddingTop: 45 }}>
-                    <Fab
-                      active={this.state.active}
-                      containerStyle={{}}
-                      style={{ backgroundColor: "#5067FF" }}
-                      position="bottomRight"
-                      onPress={() =>
-                        this.setState({ active: !this.state.active })
-                      }
-                    >
-                      <Icon name="share" />
-                      <Button style={{ backgroundColor: "#34A34F" }}>
-                        <Icon name="logo-whatsapp" />
-                      </Button>
-                      <Button style={{ backgroundColor: "#3B5998" }}>
-                        <Icon name="logo-facebook" />
-                      </Button>
-                      <Button disabled style={{ backgroundColor: "#DD5144" }}>
-                        <Icon name="mail" />
-                      </Button>
-                    </Fab>
-                  </View> */}
                   <CardItem>
                     <Text style={styles.itemText}>{item.description}</Text>
                   </CardItem>
@@ -133,7 +120,6 @@ export default class ItemComponent extends React.Component {
 
 const styles = StyleSheet.create({
   itemsList: {
-    paddingTop: 100,
     flex: 1,
     flexDirection: "column",
     justifyContent: "center"

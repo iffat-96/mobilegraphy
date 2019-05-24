@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Image } from "react-native";
 import firebase from "firebase";
+import { LinearGradient } from "expo";
 
 class Login extends Component {
   isUserEqual = (googleUser, firebaseUser) => {
@@ -101,6 +102,21 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <LinearGradient
+          colors={["rgba(235, 235, 235, 1)", "transparent"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 600
+          }}
+        />
+        <Image
+          style={{ width: 150, height: 150 }}
+          source={require("../assets/insta-logo.png")}
+        />
+        <Image source={require("../assets/title.png")} />
         <Button
           title="Sign in With Google"
           onPress={() => this.signInWithGoogleAsync()}
@@ -115,6 +131,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#DCDCDC"
   }
 });

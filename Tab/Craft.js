@@ -12,7 +12,7 @@ import {
   TextInput,
   Alert
 } from "react-native";
-import { Icon, Button, Item } from "native-base";
+import { Icon, Button, Item, Card, CardItem, Left } from "native-base";
 import { Constants, ImagePicker, Permissions } from "expo";
 import uuid from "uuid";
 import * as firebase from "firebase";
@@ -55,20 +55,23 @@ class AddNewScreen extends React.Component {
             style={{
               fontSize: 20,
               marginBottom: 20,
-              textAlign: "center",
-              marginHorizontal: 15
+              textAlign: "center"
             }}
           />
         )}
+        <Image source={require("../assets/title.png")} />
         <Item>
-          <Button onPress={this._pickImage}>
+          <Button
+            style={{ paddingRight: 10, paddingLeft: 10 }}
+            onPress={this._pickImage}
+          >
             <Icon transparent active name="image" />
           </Button>
-        </Item>
-
-        <Text style={{ marginBottom: 20, marginTop: 20 }} />
-        <Item>
-          <Button onPress={this._takePhoto}>
+          <Text style={{ paddingLeft: 25, paddingRight: 25 }} />
+          <Button
+            style={{ paddingRight: 10, paddingLeft: 10 }}
+            onPress={this._takePhoto}
+          >
             <Icon transparent active name="camera" />
           </Button>
         </Item>
@@ -110,57 +113,60 @@ class AddNewScreen extends React.Component {
     };
 
     return (
-      <View
-        style={{
-          marginTop: 30,
-          width: 400,
-          borderRadius: 3,
-          elevation: 2
-        }}
-      >
+      <Card>
         <View
           style={{
-            borderTopRightRadius: 3,
-            borderTopLeftRadius: 3,
-            shadowColor: "rgba(0,0,0,1)",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 4, height: 4 },
-            shadowRadius: 5,
-            overflow: "hidden"
+            marginTop: 30,
+            width: 400,
+            borderRadius: 3,
+            elevation: 2
           }}
         >
-          <Image
-            source={{ uri: image }}
+          <View
+            style={{
+              borderTopRightRadius: 3,
+              borderTopLeftRadius: 3,
+              shadowColor: "rgba(0,0,0,1)",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 4, height: 4 },
+              shadowRadius: 5,
+              overflow: "hidden"
+            }}
+          >
+            <Image
+              source={{ uri: image }}
+              style={{
+                width: 400,
+                height: 200,
+                resizeMode: "contain"
+              }}
+            />
+          </View>
+
+          <TextInput
+            onChange={this.handleChange}
+            multiline={true}
+            numberOfLines={4}
             style={{
               width: 400,
-              height: 200,
-              resizeMode: "contain"
+              borderColor: "transparent",
+              paddingLeft: 20,
+              backgroundColor: "rgba(210, 215, 211, 0.3)",
+              marginBottom: 20
             }}
+            placeholder=" Description"
           />
+
+          <Item style={{ justifyContent: "center" }}>
+            <Button
+              style={{ paddingRight: 20, paddingLeft: 20 }}
+              onPress={this.handleSubmit}
+            >
+              <Icon placeholder="Post" transparent active name="paper-plane" />
+            </Button>
+          </Item>
         </View>
-
-        <Text style={{ marginTop: 20, marginBottom: 20 }}>Description :</Text>
-
-        <TextInput
-          onChange={this.handleChange}
-          multiline={true}
-          numberOfLines={4}
-          placeholder="Description"
-          style={{
-            paddingLeft: 10,
-            width: 400,
-            borderColor: "transparent",
-            borderWidth: 1,
-            backgroundColor: "rgba(210, 215, 211, 0.3)",
-            marginBottom: 20
-          }}
-        />
-        <Item style={{ justifyContent: "center" }}>
-          <Button onPress={this.handleSubmit}>
-            <Icon placeholder="Post" transparent active name="paper-plane" />
-          </Button>
-        </Item>
-      </View>
+      </Card>
     );
   };
   _share = () => {
