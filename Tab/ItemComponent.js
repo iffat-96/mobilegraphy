@@ -1,3 +1,5 @@
+import { db } from "../Config";
+import firebase from "firebase";
 import React from "react";
 import {
   View,
@@ -32,13 +34,30 @@ export default class ItemComponent extends React.Component {
     super();
     this.state = {
       comment: "",
-      text: ""
+      text: "",
+      userID: "",
+      imageURL: null,
+      userName: ""
       // active: "false"
     };
   }
 
   static propTypes = {
     items: PropTypes.array.isRequired
+  };
+
+  getuser = () => {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      this.setState({
+        userID: user.uid,
+        imageURL: user.photoURL,
+        userName: user.displayName
+      });
+      console.log(this.state.userID);
+    } else {
+      console.log("no login user");
+    }
   };
 
   submit = () => {
@@ -62,10 +81,10 @@ export default class ItemComponent extends React.Component {
                   <Left>
                     <Thumbnail
                       style={{ width: 50, height: 50 }}
-                      source={require("../assets/insta-logo.png")}
+                      source={{ uri: this.state.imageURL }}
                     />
                     <Body>
-                      <Text>Username</Text>
+                      <Text>{this.state.userName}</Text>
                     </Body>
                   </Left>
                 </CardItem>
@@ -76,7 +95,7 @@ export default class ItemComponent extends React.Component {
                   />
                   <CardItem style={{ height: 45 }}>
                     <Left>
-                      <Button transparent>
+                      <Button transparent onPress={this.getuser}>
                         <Icon name="heart-empty" style={{ color: "black" }} />
                       </Button>
                       <Button transparent>

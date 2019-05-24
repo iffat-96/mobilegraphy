@@ -20,8 +20,11 @@ import { db } from "../Config.js";
 
 console.disableYellowBox = true;
 
-let addItem = (link, desc) => {
+let addItem = (name, imglink, username, link, desc) => {
   db.ref("/items").push({
+    userID: name,
+    imageURL: imglink,
+    userName: username,
     imgURL: link,
     description: desc,
     created_at: Date.now()
@@ -36,6 +39,9 @@ class AddNewScreen extends React.Component {
   };
 
   state = {
+    userID: "",
+    imageURL: null,
+    userName: "",
     description: "",
     image: null,
     uploading: false
@@ -74,6 +80,13 @@ class AddNewScreen extends React.Component {
           >
             <Icon transparent active name="camera" />
           </Button>
+          <Text style={{ paddingLeft: 25, paddingRight: 25 }} />
+          <Button
+            style={{ paddingRight: 10, paddingLeft: 10 }}
+            onPress={this.getuser}
+          >
+            <Icon transparent active name="person" />
+          </Button>
         </Item>
 
         {this._maybeRenderImage()}
@@ -83,13 +96,33 @@ class AddNewScreen extends React.Component {
     );
   }
 
+  getuser = () => {
+    var user = firebase.auth().currentUser;
+    if (user) {
+      this.setState({
+        userID: user.uid,
+        imageURL: user.photoURL,
+        userName: user.displayName
+      });
+      console.log(this.state.userID);
+    } else {
+      console.log("no login user");
+    }
+  };
+
   handleChange = e => {
     this.setState({
       description: e.nativeEvent.text
     });
   };
   handleSubmit = () => {
-    addItem(this.state.image, this.state.description);
+    addItem(
+      this.state.userID,
+      this.state.imageURL,
+      this.state.userName,
+      this.state.image,
+      this.state.description
+    );
     Alert.alert(
       "Post Status",
       "Successfully Saved !",
